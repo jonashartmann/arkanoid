@@ -1,8 +1,18 @@
-/* globals Crafty */
 (function(Crafty) {
 	'use strict';
 	Crafty.init(600, 400);
 	Crafty.background('rgb(127,127,127)');
+
+	Crafty.bind('EnterFrame', function () {
+		Crafty('Lifes').each(function () {
+			if (this.lifes <= 0) {
+				Crafty.stop(true);
+				window.alert('Game Over!');
+				// TODO: Reinitialize everything
+				Crafty.init(600, 400);
+			}
+		});
+	});
 
 	//Paddles
 	Crafty.e('Paddle, 2D, Canvas, Color, Multiway')
@@ -26,10 +36,15 @@
 				this.dY *= -1;
 			}
 
+			// Got outside through the bottom
 			if (this.y >= 400) {
 				this.y = 200;
 				this.x = 300;
 				this.dX = 0;
+
+				Crafty('Lifes').each(function () {
+					this.text(--this.lifes + ' Lifes');
+				});
 			}
 
 			this.x += this.dX;
@@ -63,4 +78,7 @@
 	Crafty.e('Points, DOM, 2D, Text')
 		.attr({ x: 20, y: 20, w: 100, h: 20, points: 0 })
 		.text('0 Points');
+	Crafty.e('Lifes, DOM, 2D, Text')
+		.attr({ x: 20, y: 40, w: 100, h: 20, lifes: 3})
+		.text('3 Lifes');
 })(Crafty);
