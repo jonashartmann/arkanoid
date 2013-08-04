@@ -65,6 +65,11 @@
 
 	});
 
+	Crafty.sprite(256, 64, 'images/buttons_grey.png', {
+		greyBtn : [ 0, 0],
+		greyBtnPressed : [ 0, 1]
+	});
+
 	Crafty.scene('splash');
 
 })(Crafty, Clay);

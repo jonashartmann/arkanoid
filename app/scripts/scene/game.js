@@ -1,14 +1,13 @@
 (function() {
 	'use strict';
-	var _TOTAL_BRICKS = 6;
 	Crafty.scene('game', function () {
+		var _TOTAL_BRICKS = 6;
+		var _leaderboard = new Clay.Leaderboard( { id: 'lb_arkamasters' } );
+
 		Crafty.bind('EnterFrame', function () {
 			Crafty('Lifes').each(function () {
 				if (this.lifes <= 0) {
-					Crafty.stop(true);
-					window.alert('Game Over!');
-					// TODO: Reinitialize everything
-					Crafty.init(600, 400);
+					_endGame(false);
 				}
 			});
 			Crafty('Points').each(function () {
@@ -16,19 +15,17 @@
 					( new Clay.Achievement({ id: 'ac_destroyer' })).award();
 				}
 				if (this.points >= _TOTAL_BRICKS) {
-					Crafty.stop(true);
-					window.alert('Congratulations!');
-					( new Clay.Achievement({ id: 'ac_level1' })).award();
-					Crafty.init(600, 400);
+					_endGame(true);
 				}
 			});
 		});
 
 		//Paddles
-		Crafty.e('Paddle, 2D, Canvas, Color, Multiway')
+		Crafty.e('Paddle, 2D, Canvas, Color, Twoway')
 			.color('#0000AA')
 			.attr({ x: 260, y: 390, w: 80, h: 10 })
-			.multiway(4, { A: 180, D: 0 });
+			// .multiway(4, { A: 180, D: 0 });
+			.twoway(5, 0);
 
 		//Ball
 		Crafty.e('Ball, 2D, Canvas, Color, Collision')
@@ -91,5 +88,26 @@
 		Crafty.e('Lifes, DOM, 2D, Text')
 			.attr({ x: 20, y: 40, w: 100, h: 20, lifes: 3})
 			.text('3 Lifes');
+
+		function _endGame (victory) {
+			if (!victory) {
+				_addHighScore();
+				Crafty.scene('menu');
+				window.alert('Game Over!');
+			} else {
+				( new Clay.Achievement({ id: 'ac_level1' })).award();
+				_addHighScore();
+				Crafty.scene('menu');
+				window.alert('Congratulations! You won!');
+			}
+		}
+
+		function _addHighScore () {
+			Crafty('Points').each(function () {
+				_leaderboard.post({score: this.points}, function (res) {
+					console.log('Posted to Leaderboard', res);
+				});
+			});
+		}
 	});
 })();
