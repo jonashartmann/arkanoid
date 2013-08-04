@@ -48,7 +48,7 @@
             }, 20);
             this.bind("TweenEnd", function() {
                 this.tween({
-                    y : 65,
+                    y : 65
                 }, 20);
             });
         });

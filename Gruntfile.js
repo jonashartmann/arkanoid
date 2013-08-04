@@ -290,8 +290,8 @@ module.exports = function (grunt) {
                 'coffee'
             ],
             dist: [
-                'coffee',
-                'compass',
+                // 'coffee',
+                // 'compass',
                 'imagemin',
                 'svgmin',
                 'htmlmin'
