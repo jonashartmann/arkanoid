@@ -54,19 +54,28 @@
         });
 
         // START BUTTON
+        var startText = Crafty.e("2D, DOM, Text, Mouse").attr({
+            x : 265,
+            y : buttons.START.y + 10
+        })
+        .text(buttons.START.label)
+        .textFont({ size: '35px', weight: 'bold' })
+        .textColor('#007788');
         var startButton = Crafty.e("2D, DOM, greyBtn, SpriteAnimation, Mouse").attr({
             x : buttons.START.x,
             y : buttons.START.y
         })
         .bind('Click', function() {
             Crafty.scene("game");
-        });
-
-        var startText = Crafty.e("2D, DOM, Text, Mouse").attr({
-            x : 265,
-            y : buttons.START.y + 10
         })
-        .text(buttons.START.label)
+        .attach(startText);
+
+        // Leaderboard button
+        var scoresText = Crafty.e("2D, DOM, Text, Mouse").attr({
+            x : 194,
+            y : buttons.HIGH_SCORE.y + 10
+        })
+        .text(buttons.HIGH_SCORE.label)
         .textFont({ size: '35px', weight: 'bold' })
         .textColor('#007788');
 
@@ -83,14 +92,7 @@
                 // btnElem.removeComponent('greyBtnPressed', false);
                 // btnElem.addComponent('greyBtn');
             });
-        });
-
-        var scoresText = Crafty.e("2D, DOM, Text, Mouse").attr({
-            x : 194,
-            y : buttons.HIGH_SCORE.y + 10
         })
-        .text(buttons.HIGH_SCORE.label)
-        .textFont({ size: '35px', weight: 'bold' })
-        .textColor('#007788');
+        .attach(scoresText);
     });
 })();

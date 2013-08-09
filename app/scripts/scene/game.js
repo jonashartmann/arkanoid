@@ -1,8 +1,8 @@
-(function() {
+(function () {
 	'use strict';
 	Crafty.scene('game', function () {
 		var _TOTAL_BRICKS = 6;
-		var _leaderboard = new Clay.Leaderboard( { id: 'lb_arkamasters' } );
+		// var _leaderboard = new Clay.Leaderboard( { id: 'lb_arkamasters' } );
 
 		Crafty.bind('EnterFrame', function () {
 			Crafty('Lifes').each(function () {
@@ -11,9 +11,9 @@
 				}
 			});
 			Crafty('Points').each(function () {
-				if (this.points === 2) {
-					( new Clay.Achievement({ id: 'ac_destroyer' })).award();
-				}
+				// if (this.points === 2) {
+				// 	( new Clay.Achievement({ id: 'ac_destroyer' })).award();
+				// }
 				if (this.points >= _TOTAL_BRICKS) {
 					_endGame(true);
 				}
@@ -95,7 +95,7 @@
 				Crafty.scene('menu');
 				window.alert('Game Over!');
 			} else {
-				( new Clay.Achievement({ id: 'ac_level1' })).award();
+				// ( new Clay.Achievement({ id: 'ac_level1' })).award();
 				_addHighScore();
 				Crafty.scene('menu');
 				window.alert('Congratulations! You won!');
@@ -104,9 +104,9 @@
 
 		function _addHighScore () {
 			Crafty('Points').each(function () {
-				_leaderboard.post({score: this.points}, function (res) {
-					console.log('Posted to Leaderboard', res);
-				});
+				// _leaderboard.post({score: this.points}, function (res) {
+				// 	console.log('Posted to Leaderboard', res);
+				// });
 			});
 		}
 	});
