@@ -25,7 +25,13 @@
 			.color('#0000AA')
 			.attr({ x: 260, y: 390, w: 80, h: 10 })
 			// .multiway(4, { A: 180, D: 0 });
-			.twoway(5, 0);
+			.twoway(5, 0)
+			.bind('Moved', function (oldPos) {
+				// Do not allow it to leave the stage
+				if (this.x <= 0 || this.x >= 520) {
+					this.x = oldPos.x;
+				}
+			});
 
 		//Ball
 		Crafty.e('Ball, 2D, Canvas, Color, Collision')
