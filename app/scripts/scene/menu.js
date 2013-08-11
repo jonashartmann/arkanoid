@@ -115,6 +115,6 @@
         .bind('Click', function() {
             Crafty.scene("editor");
         })
-        .attach(startText);
+        .attach(editorText);
     });
 })();

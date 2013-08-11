@@ -2,7 +2,7 @@
 	'use strict';
 	Crafty.scene('game', function () {
 		// Load bricks
-		var lvlReq = $.getJSON('/level/level1.json')
+		var lvlReq = $.getJSON('/level/level2.json')
 		.done(function onLvlLoaded(data) {
 			console.log('Level successfully loaded.');
 			initLevel(data);
