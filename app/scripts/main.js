@@ -1,4 +1,4 @@
-(function(Crafty, Clay) {
+(function(Crafty, Clay, $) {
 	'use strict';
 
 	Crafty.init(600, 400);
@@ -72,4 +72,4 @@
 
 	Crafty.scene('splash');
 
-})(Crafty, Clay);
+})(Crafty, Clay, jQuery);

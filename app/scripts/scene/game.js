@@ -1,7 +1,20 @@
 (function () {
 	'use strict';
 	Crafty.scene('game', function () {
-		var _TOTAL_BRICKS = 6;
+		// Load bricks
+		var lvlReq = $.getJSON('/level/level1.json')
+		.done(function onLvlLoaded(data) {
+			console.log('Success: ', data);
+			initLevel(data);
+		})
+		.fail(function onLvlLoadFailed (error) {
+			console.error('Error', error);
+		});
+	});
+
+	function initLevel (lvlJSON) {
+		var bricks = lvlJSON.bricks;
+		var _TOTAL_BRICKS = bricks.length;
 		// var _leaderboard = new Clay.Leaderboard( { id: 'lb_arkamasters' } );
 
 		Crafty.bind('EnterFrame', function () {
@@ -83,7 +96,7 @@
 		for (var i = 0; i < _TOTAL_BRICKS; i++) {
 			Crafty.e('Brick'+i+', 2D, Canvas, Color, Collision')
 			.color('#AA0000')
-			.attr({ x: 40 + 80*i + 4*i, y: 100, w: 80, h: 30 })
+			.attr({ x: bricks[i].x, y: bricks[i].y, w: bricks[i].w, h: bricks[i].h })
 			.onHit('Ball', onHit);
 		}
 
@@ -115,5 +128,5 @@
 				// });
 			});
 		}
-	});
+	}
 })();
