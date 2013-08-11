@@ -2,12 +2,22 @@
     'use strict';
     Crafty.scene('editor', function editorScene () {
 
+        var _width = Crafty.viewport.width;
+        var _height = Crafty.viewport.height;
+
         var bricksCreated = 0;
         var lvl = {
             name: "Dynamic Level",
             bricks: []
         };
         var brickSet = {};
+
+        Crafty.e('Line, 2D, Canvas, Color')
+            .color('#AAAAAA')
+            .attr({ x:0, y:8*_height/10, w:_width, h:2});
+        Crafty.e('Line, 2D, Canvas, Color')
+            .color('#000000')
+            .attr({ x:0, y:8*_height/10, w:_width, h:1});
 
         Crafty.c('Brick', {
             init: function BrickInit () {
@@ -49,15 +59,17 @@
 
         // SAVE BUTTON
         var saveText = Crafty.e("2D, DOM, Text, Mouse").attr({
-            x : 435,
-            y : 337 + 10
+            x : 5*_width / 6 + 20 - 2,
+            y : 8*_height / 10 + 3
         })
         .text('Save')
-        .textFont({ size: '35px', weight: 'bold' })
-        .textColor('#007788');
-        var editorButton = Crafty.e("2D, DOM, greyBtn, SpriteAnimation, Mouse").attr({
-            x : 345,
-            y : 337
+        .textFont({ size: '25px', weight: 'bold' })
+        .textColor('#FFFFFF');
+        var saveButton = Crafty.e("2D, DOM, greyBtn, SpriteAnimation, Mouse").attr({
+            x : 5*_width / 6 - 2,
+            y : 8*_height / 10 + 3,
+            w : 100,
+            h : 30
         })
         .bind('Click', function() {
             var lvlData = JSON.stringify(withBricks(lvl));

@@ -3,7 +3,7 @@
     Crafty.scene('menu', function() {
         console.log("Scene: menu");
 
-        var _WIDTH = 600;
+        var _WIDTH = Crafty.viewport.width;
         var _BTN_WIDTH = 256;
 
         var buttons = {
@@ -26,14 +26,14 @@
 
 
         var gameTitleTextShadow = Crafty.e("2D, DOM, Text, Mouse").attr({
-            x : 172,
+            x : _WIDTH/2 - _BTN_WIDTH/2 + 2,
             y : 52
         })
         .text('Arkanoid')
         .textFont({ size: '60px', weight: 'bold' })
         .textColor('#000000');
         var gameTitleText = Crafty.e("2D, DOM, Text, Mouse").attr({
-            x : 170,
+            x : _WIDTH/2 - _BTN_WIDTH/2,
             y : 50
         })
         .text('Arkanoid')
@@ -60,12 +60,12 @@
 
         // START BUTTON
         var startText = Crafty.e("2D, DOM, Text, Mouse").attr({
-            x : 265,
+            x : buttons.START.x + 20,
             y : buttons.START.y + 10
         })
         .text(buttons.START.label)
         .textFont({ size: '35px', weight: 'bold' })
-        .textColor('#007788');
+        .textColor('#FFFFFF');
         var startButton = Crafty.e("2D, DOM, greyBtn, SpriteAnimation, Mouse").attr({
             x : buttons.START.x,
             y : buttons.START.y
@@ -77,12 +77,12 @@
 
         // Leaderboard button
         var scoresText = Crafty.e("2D, DOM, Text, Mouse").attr({
-            x : 194,
+            x : buttons.HIGH_SCORE.x + 20,
             y : buttons.HIGH_SCORE.y + 10
         })
         .text(buttons.HIGH_SCORE.label)
         .textFont({ size: '35px', weight: 'bold' })
-        .textColor('#007788');
+        .textColor('#FFFFFF');
 
         var scoresBtn = Crafty.e("2D, DOM, greyBtn, SpriteAnimation, Mouse").attr({
             x : buttons.HIGH_SCORE.x,
@@ -102,12 +102,12 @@
 
         // EDITOR BUTTON
         var editorText = Crafty.e("2D, DOM, Text, Mouse").attr({
-            x : 265,
+            x : buttons.EDITOR.x + 20,
             y : buttons.EDITOR.y + 10
         })
         .text(buttons.EDITOR.label)
         .textFont({ size: '35px', weight: 'bold' })
-        .textColor('#007788');
+        .textColor('#FFFFFF');
         var editorButton = Crafty.e("2D, DOM, greyBtn, SpriteAnimation, Mouse").attr({
             x : buttons.EDITOR.x,
             y : buttons.EDITOR.y
