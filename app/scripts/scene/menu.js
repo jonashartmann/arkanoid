@@ -16,7 +16,12 @@
                 label: 'Leaderboard',
                 x: (_WIDTH/2) - (_BTN_WIDTH/2),
                 y: 230
-            }
+            },
+            EDITOR : {
+                label: 'Editor',
+                x: (_WIDTH/2) - (_BTN_WIDTH/2),
+                y: 310
+            },
         };
 
 
@@ -94,5 +99,22 @@
             });
         })
         .attach(scoresText);
+
+        // EDITOR BUTTON
+        var editorText = Crafty.e("2D, DOM, Text, Mouse").attr({
+            x : 265,
+            y : buttons.EDITOR.y + 10
+        })
+        .text(buttons.EDITOR.label)
+        .textFont({ size: '35px', weight: 'bold' })
+        .textColor('#007788');
+        var editorButton = Crafty.e("2D, DOM, greyBtn, SpriteAnimation, Mouse").attr({
+            x : buttons.EDITOR.x,
+            y : buttons.EDITOR.y
+        })
+        .bind('Click', function() {
+            Crafty.scene("editor");
+        })
+        .attach(startText);
     });
 })();
