@@ -41,7 +41,7 @@
 			.twoway(5, 0)
 			.bind('Moved', function (oldPos) {
 				// Do not allow it to leave the stage
-				if (this.x <= 0 || this.x >= 520) {
+				if (this.x <= 0 || this.x >= Crafty.viewport.width - this.w) {
 					this.x = oldPos.x;
 				}
 			});
