@@ -4,11 +4,11 @@
 		// Load bricks
 		var lvlReq = $.getJSON('/level/level1.json')
 		.done(function onLvlLoaded(data) {
-			console.log('Success: ', data);
+			console.log('Level successfully loaded.');
 			initLevel(data);
 		})
 		.fail(function onLvlLoadFailed (error) {
-			console.error('Error', error);
+			console.error('Error loading level:', error);
 		});
 	});
 
@@ -100,7 +100,10 @@
 			.onHit('Ball', onHit);
 		}
 
-		//Score boards
+		//HUD info
+		Crafty.e('LevelName, DOM, 2D, Text')
+			.attr({ x: 20, y: 1, w: 100, h: 20})
+			.text(lvlJSON.name);
 		Crafty.e('Points, DOM, 2D, Text')
 			.attr({ x: 20, y: 20, w: 100, h: 20, points: 0 })
 			.text('0 Points');
