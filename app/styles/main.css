@@ -5,8 +5,23 @@ body {
     color: #333;
 }
 
+.stage-wrapper {
+	margin: auto;
+	width: 600px;
+	position: relative;
+}
+
 #cr-stage {
     margin: auto;
+}
+
+form[name="levelNameForm"] {
+	margin: auto;
+	position: absolute;
+	right: 7px;
+	bottom: 43px;
+	z-index: 10;
+	display: none;
 }
 
 .greyBtn:active {

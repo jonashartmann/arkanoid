@@ -1,6 +1,8 @@
-(function() {
+(function($) {
     'use strict';
     Crafty.scene('editor', function editorScene () {
+
+        showEditorForm();
 
         var _width = Crafty.viewport.width;
         var _height = Crafty.viewport.height;
@@ -59,20 +61,27 @@
 
         // SAVE BUTTON
         var saveText = Crafty.e("2D, DOM, Text, Mouse").attr({
-            x : 5*_width / 6 + 20 - 2,
-            y : 8*_height / 10 + 3
+            x : 5*_width / 6 + 20 - 8,
+            y : 9*_height / 10 + 3
         })
         .text('Save')
         .textFont({ size: '25px', weight: 'bold' })
         .textColor('#FFFFFF');
         var saveButton = Crafty.e("2D, DOM, greyBtn, SpriteAnimation, Mouse").attr({
-            x : 5*_width / 6 - 2,
-            y : 8*_height / 10 + 3,
+            x : 5*_width / 6 - 8,
+            y : 9*_height / 10 + 3,
             w : 100,
             h : 30
         })
         .bind('Click', function() {
-            var lvlData = JSON.stringify(withBricks(lvl));
+            lvl.name = getLevelName();
+            var lvlWithBricks = withBricks(lvl);
+            if (lvlWithBricks.bricks.length <= 0) {
+                window.alert('Your level is empty, please add at least 1 brick!');
+                return false;
+            }
+
+            var lvlData = JSON.stringify(lvlWithBricks);
             console.log('Trying to save level to file. ', lvl, lvlData);
             var isFileSaverSupported = false;
             try { isFileSaverSupported = !!new Blob(); } catch(e){}
@@ -86,6 +95,29 @@
         })
         .attach(saveText);
 
+        // CANCEL BUTTON
+        var cancelText = Crafty.e("2D, DOM, Text, Mouse").attr({
+            x : 4*_width / 6,
+            y : 9*_height / 10 + 3
+        })
+        .text('Cancel')
+        .textFont({ size: '25px', weight: 'bold' })
+        .textColor('#FFFFFF');
+        var cancelButton = Crafty.e("2D, DOM, greyBtn, SpriteAnimation, Mouse").attr({
+            x : 4*_width / 6 - 10,
+            y : 9*_height / 10 + 3,
+            w : 100,
+            h : 30
+        })
+        .bind('Click', function() {
+            if (window.confirm('You will lose any unsaved data if you continue, are you sure?')) {
+                clearLevelName();
+                hideEditorForm();
+                Crafty.scene('menu');
+            }
+        })
+        .attach(cancelText);
+
         function withBricks(lvl) {
             lvl.bricks = [];
             for (var brick in brickSet) {
@@ -96,4 +128,36 @@
             return lvl;
         }
     });
-})();
+
+    function showEditorForm () {
+        var $form = $('form[name="levelNameForm"]');
+        if ($form) {
+            $form.show();
+        }
+    }
+
+    function hideEditorForm () {
+        var $form = $('form[name="levelNameForm"]');
+        if ($form) {
+            $form.hide();
+        }
+    }
+
+    function getLevelName () {
+        var $input = $('input[name="levelName"]');
+        if ($input) {
+            return $input.val() || 'dynamic_' + getRandomInt(1, 10000000);
+        }
+    }
+
+    function clearLevelName () {
+        var $input = $('input[name="levelName"]');
+        if ($input) {
+            $input.val('');
+        }
+    }
+
+    function getRandomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1) + min);
+    }
+})(jQuery);
