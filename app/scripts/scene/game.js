@@ -1,8 +1,8 @@
 (function () {
 	'use strict';
 	Crafty.scene('game', function () {
-		// Load bricks
-		var lvlReq = $.getJSON('/level/level1.json')
+		// Load level
+		var lvlReq = $.getJSON('/level/boss.json')
 		.done(function onLvlLoaded(data) {
 			console.log('Level successfully loaded.');
 			initLevel(data);
@@ -41,7 +41,7 @@
 			.twoway(5, 0)
 			.bind('Moved', function (oldPos) {
 				// Do not allow it to leave the stage
-				if (this.x <= 0 || this.x >= 520) {
+				if (this.x <= 0 || this.x >= Crafty.viewport.width - this.w) {
 					this.x = oldPos.x;
 				}
 			});

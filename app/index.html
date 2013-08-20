@@ -18,22 +18,41 @@
         <!-- endbuild -->
     </head>
     <body>
-        <div class="container">
-        </div>
-
         <!--[if lt IE 7]>
             <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
         <![endif]-->
+        <div class="stage-wrapper">
+            <form id="levelNameForm" name="levelNameForm" class="craftyBreaker">
+                <label for="levelName">Level Name</label>
+                <input type="text" name="levelName" id="levelName">
+            </form>
+            <div id="cr-stage">
+            </div>
+        </div>
 
         <script src="scripts/clayio-dev.js"></script>
         <!-- build:js scripts/main.js -->
+        <script src="scripts/filesaver/FileSaver.js"></script>
         <script src="bower_components/jquery/jquery.js"></script>
         <script src="bower_components/crafty/crafty-local.js"></script>
         <!--<script src="scripts/clayio.js"></script>-->
+        <script src="scripts/scene/editor.js"></script>
         <script src="scripts/scene/game.js"></script>
         <script src="scripts/scene/menu.js"></script>
         <script src="scripts/scene/splash.js"></script>
         <script src="scripts/main.js"></script>
         <!-- endbuild -->
+
+        <script type="text/javascript">
+          var _gaq = _gaq || [];
+          _gaq.push(['_setAccount', 'UA-39541687-2']);
+          _gaq.push(['_trackPageview']);
+
+          (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+          })();
+        </script>
 </body>
 </html>
