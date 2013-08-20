@@ -73,8 +73,16 @@
         })
         .bind('Click', function() {
             var lvlData = JSON.stringify(withBricks(lvl));
-            console.log(lvl, lvlData);
-            window.prompt("Copy it", lvlData);
+            console.log('Trying to save level to file. ', lvl, lvlData);
+            var isFileSaverSupported = false;
+            try { isFileSaverSupported = !!new Blob(); } catch(e){}
+            if (isFileSaverSupported) {
+                var blob = new Blob([lvlData], {type: "text/plain;charset=utf-8"});
+                window.saveAs(blob, lvl.name+".json");
+            } else {
+                console.warn('Blob is not supported.');
+                window.prompt("Copy it go! (Ctrl/Cmd + C and Enter)", lvlData);
+            }
         })
         .attach(saveText);
 
