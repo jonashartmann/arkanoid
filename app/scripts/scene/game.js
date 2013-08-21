@@ -55,7 +55,14 @@
     function createBricks () {
         var onHit = function (info) {
             var ball = info[0].obj;
-            ball.dY *= -1;
+            // Only rebounce if the hit was in that direction
+            if (info[0].normal.y) {
+                ball.dY *= -1;
+            }
+            if (info[0].normal.x) {
+                ball.dX *= -1;
+            }
+
             // destroy the brick
             this.destroy();
             // Add point
