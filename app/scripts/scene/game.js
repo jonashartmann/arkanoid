@@ -8,10 +8,12 @@
     var levels = [
         'level1',
         'level2',
+        'scary',
         'level3',
         'level4',
         'level5',
-        'scary',
+        'level6',
+        'palms',
         'boss'
     ];
     var _totalBricks = 0;
