@@ -60,7 +60,7 @@
             EPoints.text(++_points + ' Points');
         };
         for (var i = 0; i < _totalBricks; i++) {
-            Crafty.e('Brick'+i+', 2D, Canvas, Color, Collision')
+            Crafty.e('Brick, 2D, Canvas, Color, Collision')
             .color('#AA0000')
             .attr({ x: _bricks[i].x, y: _bricks[i].y, w: _bricks[i].w, h: _bricks[i].h })
             .onHit('Ball', onHit);
@@ -214,7 +214,7 @@
                 _endGame(false);
                 return true;
             }
-            if (_points >= _totalBricks) {
+            if (Crafty('Brick').length <= 0) {
                 _endGame(true);
                 return true;
             }
