@@ -23,6 +23,7 @@
 
         Crafty.c('Brick', {
             init: function BrickInit () {
+                // TODO: Fix conflict with Brick entities created for the game
                 this.color('#22FFaa');
                 this.attr({ x: 50, y: 347, w: 80, h: 30 });
             }

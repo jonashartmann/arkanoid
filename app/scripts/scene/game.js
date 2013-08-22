@@ -1,6 +1,7 @@
 (function (LevelLoader) {
     'use strict';
 
+    var _WIDTH = 0;
     var achievements = {
         COMPLETE_ALL: 'ac_complete_all',
         LEVEL_1: 'ac_level1'
@@ -27,6 +28,7 @@
     // var _leaderboard = new Clay.Leaderboard( { id: 'lb_arkamasters' } );
 
     function loadLevel () {
+        _WIDTH = Crafty.viewport.width;
         // Load current level
         LevelLoader.loadLevel(levels[_currentLevel], initLevel);
     }
@@ -69,8 +71,9 @@
             EPoints.text(++_points + ' Points');
         };
         for (var i = 0; i < _totalBricks; i++) {
-            Crafty.e('Brick, 2D, Canvas, Color, Collision')
+            Crafty.e('Brick, 2D, DOM, Color, Collision, BorderRadius, BoxShadow')
             .color('#AA0000')
+            .borderRadius(10)
             .attr({ x: _bricks[i].x, y: _bricks[i].y, w: _bricks[i].w, h: _bricks[i].h })
             .onHit('Ball', onHit);
         }
@@ -78,15 +81,18 @@
 
     function createHud (levelName, points, lifes) {
         //HUD info
-        ELevelName = Crafty.e('LevelName, DOM, 2D, Text')
-            .attr({ x: 20, y: 1, w: 100, h: 20})
-            .text(levelName);
-        EPoints = Crafty.e('Points, DOM, 2D, Text')
-            .attr({ x: 20, y: 20, w: 100, h: 20 })
-            .text(points + ' Points');
-        ELifes = Crafty.e('Lifes, DOM, 2D, Text')
-            .attr({ x: 20, y: 40, w: 100, h: 20})
-            .text(lifes + ' Lifes');
+        ELevelName = Crafty.e('LevelName, DOM, 2D, Text, TextShadow')
+            .attr({ x: 20, y: 10, w: 100, h: 20})
+            .text(levelName)
+            .textFont({ size: '20px', weight: 'bold' });
+        EPoints = Crafty.e('Points, DOM, 2D, Text, TextShadow')
+            .attr({ x: _WIDTH - 100, y: 10, w: 100, h: 20 })
+            .text(points + ' Points')
+            .textFont({ size: '20px', weight: 'bold' });
+        ELifes = Crafty.e('Lifes, DOM, 2D, Text, TextShadow')
+            .attr({ x: _WIDTH - 100, y: 35, w: 100, h: 20})
+            .text(lifes + ' Lifes')
+            .textFont({ size: '20px', weight: 'bold' });
     }
 
     function createBall () {
@@ -211,8 +217,8 @@
 
         createPaddle();
         createBall();
-        createHud(lvl.name, _points, _lifes);
         createBricks();
+        createHud(lvl.name, _points, _lifes);
 
         // Verify end of the game on every frame
         Crafty.bind('EnterFrame', function () {
