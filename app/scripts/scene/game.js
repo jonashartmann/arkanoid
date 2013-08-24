@@ -21,19 +21,37 @@
     var _currentLevel = 0;
     var _bricks = [];
     var _points = 0;
+    var _pointsOnInitLevel = 0;
     var _lifes = 3;
     var ELifes = null;
     var EPoints = null;
     var ELevelName = null;
     // var _leaderboard = new Clay.Leaderboard( { id: 'lb_arkamasters' } );
 
-    function loadLevel () {
+    function setupLevel () {
         _WIDTH = Crafty.viewport.width;
+        Crafty.bind('SceneChange', _onSceneChange);
+        Crafty.bind('KeyUp', function checkForEscape (e) {
+            if (e.key === Crafty.keys.ESC) {
+                if (Crafty.isPaused()) {
+                    Crafty.pause();
+                }
+                Crafty.scene('menu');
+            }
+            if (e.key === Crafty.keys.P) {
+                Crafty.pause();
+            }
+        });
+
         // Load current level
         LevelLoader.loadLevel(levels[_currentLevel], initLevel);
     }
 
-    Crafty.scene('game', loadLevel);
+    Crafty.scene('game', setupLevel);
+
+    function _onSceneChange (e) {
+        _cleanup(e.newScene !== 'game');
+    }
 
     function resetGame () {
         _totalBricks = 0;
@@ -108,6 +126,9 @@
             }
         })
         .bind('EnterFrame', function () {
+            if (Crafty.isPaused()) {
+                return;
+            }
             if (!this.moving) {
                 // Follow the paddle
                 this.x = Crafty('Paddle').x + Crafty('Paddle').w/2 - this.w/2;
@@ -202,8 +223,15 @@
         // });
     }
 
-    function _cleanup () {
+    function _cleanup (closingGame) {
         Crafty.unbind('EnterFrame');
+        Crafty.unbind('KeyUp');
+        Crafty.unbind('SceneChange', _onSceneChange);
+        if (closingGame) {
+            _points = _pointsOnInitLevel;
+        } else {
+            _pointsOnInitLevel = _points;
+        }
     }
 
     function initLevel (err, lvl) {

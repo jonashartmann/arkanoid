@@ -1,0 +1,7 @@
+/* Hiding the title gives more space to the game */
+.game-title {
+	display: none;
+}
+.help {
+	display: none;
+}
