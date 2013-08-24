@@ -23,6 +23,7 @@
     var _points = 0;
     var _pointsOnInitLevel = 0;
     var _lifes = 3;
+    var _lifesOnInitLevel = 3;
     var ELifes = null;
     var EPoints = null;
     var ELevelName = null;
@@ -89,9 +90,8 @@
             EPoints.text(++_points + ' Points');
         };
         for (var i = 0; i < _totalBricks; i++) {
-            Crafty.e('Brick, 2D, DOM, Color, Collision, BorderRadius, BoxShadow')
-            .color('#AA0000')
-            .borderRadius(10)
+            Crafty.e('Brick, 2D, DOM, Color, Collision, BrickC')
+            // .color('#AA0000')
             .attr({ x: _bricks[i].x, y: _bricks[i].y, w: _bricks[i].w, h: _bricks[i].h })
             .onHit('Ball', onHit);
         }
@@ -229,8 +229,10 @@
         Crafty.unbind('SceneChange', _onSceneChange);
         if (closingGame) {
             _points = _pointsOnInitLevel;
+            _lifes = _lifesOnInitLevel;
         } else {
             _pointsOnInitLevel = _points;
+            _lifesOnInitLevel = _lifes;
         }
     }
 

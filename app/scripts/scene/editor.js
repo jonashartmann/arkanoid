@@ -21,15 +21,7 @@
             .color('#000000')
             .attr({ x:0, y:8*_height/10, w:_width, h:1});
 
-        Crafty.c('Brick', {
-            init: function BrickInit () {
-                // TODO: Fix conflict with Brick entities created for the game
-                this.color('#22FFaa');
-                this.attr({ x: 50, y: 347, w: 80, h: 30 });
-            }
-        });
-
-        var BrickCreator = Crafty.e('BrickCreator, 2D, Canvas, Color, Brick, Mouse');
+        var BrickCreator = Crafty.e('BrickCreator, 2D, Canvas, Color, BrickC, Mouse');
 
         // Adds brick to level by its ID
         // It will overwrite any info already saved with this ID
@@ -51,7 +43,7 @@
         var createBrick = function createBrick () {
             console.log('Cloning');
             bricksCreated++;
-            var newBrick = Crafty.e('DynamicBrick'+bricksCreated+', 2D, Canvas, Color, Brick, Draggable')
+            var newBrick = Crafty.e('DynamicBrick'+bricksCreated+', 2D, Canvas, Color, BrickC, Draggable')
                 .attr({_brickID: bricksCreated})
                 .startDrag()
                 .bind('StopDrag', onBrickDropped);
