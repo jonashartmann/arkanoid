@@ -224,7 +224,7 @@
                 _addAchievement(achievements.PERFECT_ALL);
             }
             Crafty.scene('menu');
-            window.alert('Congratulations! You destroyed all levels! How about making your owns now?');
+            window.alert('Congratulations! You destroyed all levels! How about making your own now?');
             resetGame();
         } else {
             console.log('Resetting level and changing scene');
