@@ -99,22 +99,5 @@
             });
         })
         .attach(scoresText);
-
-        // EDITOR BUTTON
-        var editorText = Crafty.e("2D, DOM, Text, Mouse").attr({
-            x : buttons.EDITOR.x + 20,
-            y : buttons.EDITOR.y + 10
-        })
-        .text(buttons.EDITOR.label)
-        .textFont({ size: '35px', weight: 'bold' })
-        .textColor('#FFFFFF');
-        var editorButton = Crafty.e("2D, DOM, greyBtn, SpriteAnimation, Mouse").attr({
-            x : buttons.EDITOR.x,
-            y : buttons.EDITOR.y
-        })
-        .bind('Click', function() {
-            Crafty.scene("editor");
-        })
-        .attach(editorText);
     });
 })();
