@@ -1,5 +1,11 @@
-(function(Crafty, Clay, $) {
+(function(Crafty, Clay, $, Features) {
 	'use strict';
+
+	if (!Features.canvas) {
+		var $stage = $('#cr-stage');
+		$stage.html('<h1 class="no-support">Impossible to create the game because your browser does not support canvas. See you on another browser, right?! ;)</h1>');
+		return false;
+	}
 
 	Crafty.init(600, 400, 'cr-stage');
 	Crafty.canvas.init();
@@ -72,4 +78,4 @@
 
 	Crafty.scene('splash');
 
-})(Crafty, Clay, jQuery);
+})(Crafty, Clay, jQuery, Modernizr);
