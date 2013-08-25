@@ -7,7 +7,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>Arkanoid - HTML5</title>
-        <meta name="description" content="An pure HTML5 Arkanoid rewrite. Break all the blocks or create your own level and share it!">
+        <meta name="description" content="A pure HTML5 Arkanoid rewrite. Break all the blocks or create your own level and share it!">
         <meta name="keywords" content="html5, arkanoid, crafty, craftyjs, level editor, editor, canvas, javascript, clay.io, html, no-plugin, game, casual, casual game">
         <meta name="viewport" content="width=device-width, user-scalable=0,
       minimum-scale=1.0, maximum-scale=1.0">
@@ -17,6 +17,8 @@
         <!-- build:css({.tmp,app}) styles/main.css -->
         <link rel="stylesheet" type="text/css" href="styles/fontkeys.css">
         <link rel="stylesheet" href="styles/main.css">
+        <!-- endbuild -->
+        <!-- build:css({.tmp,app}) styles/small.css -->
         <link rel="stylesheet" type="text/css" href="styles/small.css" media="(max-width: 700px)">
         <!-- endbuild -->
         <!-- build:js scripts/vendor/modernizr.js -->
@@ -49,11 +51,13 @@
             </div>
         </div>
 
-        <!--script src="scripts/clayio-dev.js"></script-->
-        <!-- build:js scripts/main.js -->
+
+        <!-- build:js scripts/vendor/plugins.js -->
         <script src="scripts/filesaver/FileSaver.js"></script>
+        <script src="bower_components/crafty/crafty.js"></script>
         <script src="bower_components/jquery/jquery.js"></script>
-        <script src="bower_components/crafty/crafty-local.js"></script>
+        <!-- endbuild -->
+        <!-- build:js scripts/main.js -->
         <script src="scripts/clayio.js"></script>
         <script src="scripts/component/components.js"></script>
         <script src="scripts/scene/levelLoader.js"></script>
