@@ -2,18 +2,29 @@
     'use strict';
 
     var _WIDTH = 0;
+    var _MAX_LIFES = 5;
     var achievements = {
-        COMPLETE_ALL: 'ac_complete_all',
-        LEVEL_1: 'ac_level1'
+        START: 'ac_start',
+        PAUSE: 'ac_pause',
+        LEVEL_1: 'ac_level1',
+        LEVEL_2: 'ac_level2',
+        LEVEL_3: 'ac_level3',
+        LEVEL_5: 'ac_level5',
+        LEVEL_7: 'ac_level7',
+        BOSS: 'ac_boss',
+        PERFECT: 'ac_perfect',
+        PERFECT_ALL: 'ac_perfect_perfect',
+        COMPLETE_ALL: 'ac_complete_all'
     };
     var levels = [
         'level1',
         'level2',
-        'scary',
         'level3',
         'level4',
         'level5',
         'level6',
+        'level7',
+        'level8',
         'palms',
         'boss'
     ];
@@ -22,12 +33,13 @@
     var _bricks = [];
     var _points = 0;
     var _pointsOnInitLevel = 0;
-    var _lifes = 3;
-    var _lifesOnInitLevel = 3;
+    var _lifes = _MAX_LIFES;
+    var _lifesOnInitLevel = _MAX_LIFES;
     var ELifes = null;
     var EPoints = null;
     var ELevelName = null;
-    // var _leaderboard = new Clay.Leaderboard( { id: 'lb_arkamasters' } );
+    var _leaderboard = null;
+    var _chain = 0;
 
     function setupLevel () {
         _WIDTH = Crafty.viewport.width;
@@ -41,8 +53,12 @@
             }
             if (e.key === Crafty.keys.P) {
                 Crafty.pause();
+                _addAchievement('ac_pause');
             }
         });
+
+        // Load level leaderboard
+        _leaderboard = new Clay.Leaderboard( { id: 'lb_arkamasters' } );
 
         // Load current level
         LevelLoader.loadLevel(levels[_currentLevel], initLevel);
@@ -86,8 +102,11 @@
 
             // destroy the brick
             this.destroy();
-            // Add point
-            EPoints.text(++_points + ' Points');
+            // Add up to the chain
+            _chain++;
+            // Add points
+            _points = _points + (1 * _chain);
+            EPoints.text(_points + ' Points');
         };
         for (var i = 0; i < _totalBricks; i++) {
             Crafty.e('Brick, 2D, DOM, Color, Collision, BrickC')
@@ -162,6 +181,9 @@
             var hitted = info[0].obj;
             this.dY *= -1;
             this.dX = this.dX + (this.x - (hitted.x + hitted.w/2 - this.w/2)) / 10;
+            // Chain is over!
+            _chainEnd(_chain);
+            _chain = 0;
         });
     }
 
@@ -185,10 +207,9 @@
         if (!victory) {
             _addHighScore();
             Crafty.scene('menu');
-            window.alert('Game Over!');
+            window.alert('Oops! Try again.');
             resetGame();
         } else {
-            _addHighScore();
             _goToNextLevel();
         }
     }
@@ -197,9 +218,13 @@
         _addEndOfLevelAchievement(_currentLevel);
         _currentLevel++;
         if (_currentLevel >= levels.length) {
+            _addHighScore();
             _addAchievement(achievements.COMPLETE_ALL);
+            if (_lifes >= _MAX_LIFES) {
+                _addAchievement(achievements.PERFECT_ALL);
+            }
             Crafty.scene('menu');
-            window.alert('Congratulations! You destroyed all levels!');
+            window.alert('Congratulations! You destroyed all levels! How about making your owns now?');
             resetGame();
         } else {
             console.log('Resetting level and changing scene');
@@ -209,18 +234,26 @@
     }
 
     function _addEndOfLevelAchievement (level) {
-        // Arrays are 0 indexed
-        _addAchievement('ac_level' + (level+1));
+        if (level < 3 || level === 4 || level === 6) {
+            // Arrays are 0 indexed
+            _addAchievement('ac_level' + (level+1));
+        }
+        if (levels[level] === 'boss') {
+            _addAchievement('ac_boss');
+        }
+        if (level >= 7 && _lifes >= _MAX_LIFES) {
+            _addAchievement('ac_perfect');
+        }
     }
 
     function _addAchievement (_id) {
-        // ( new Clay.Achievement({ id: _id })).award();
+        ( new Clay.Achievement({ id: _id })).award();
     }
 
     function _addHighScore () {
-        // _leaderboard.post({score: EPoints.points}, function (res) {
-        //     console.log('Posted to Leaderboard', res);
-        // });
+        _leaderboard.post({score: _points}, function (res) {
+            console.log('Posted to Leaderboard', res);
+        });
     }
 
     function _cleanup (closingGame) {
@@ -233,6 +266,18 @@
         } else {
             _pointsOnInitLevel = _points;
             _lifesOnInitLevel = _lifes;
+        }
+    }
+
+    function _chainEnd (chainSize) {
+        if (chainSize >= 3) {
+            _addAchievement('ac_chain');
+        }
+        if (chainSize >= 5) {
+            _addAchievement('ac_chain_novice');
+        }
+        if (chainSize >= 10) {
+            _addAchievement('ac_chain_master');
         }
     }
 
@@ -252,9 +297,9 @@
 
         // Verify end of the game on every frame
         Crafty.bind('EnterFrame', function () {
-            // if (_points === 2) {
-            //  ( new Clay.Achievement({ id: 'ac_destroyer' })).award();
-            // }
+            if (_points >= 2) {
+                _addAchievement('ac_start');
+            }
             if (_lifes <= 0) {
                 _endGame(false);
                 return true;
